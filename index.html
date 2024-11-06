@@ -1,0 +1,3116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Next Date</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff6b8e;          /* Softer pink */
+            --primary-dark: #ff4d7a;     /* Darker pink for hover states */
+            --background: #121212;        /* Darker background */
+            --card-bg: #1e1e1e;          /* Darker card background */
+            --text: #ffffff;             /* Pure white for main text */
+            --text-secondary: #e0e0e0;   /* Lighter gray for better contrast */
+            --text-muted: #b0b0b0;      /* Muted but still legible text */
+            --input-bg: #2a2a2a;         /* Slightly lighter input background */
+            --input-border: #3d3d3d;     /* More visible borders */
+            --shadow: 0 10px 30px rgba(255, 107, 142, 0.25);
+            --hover-shadow: 0 15px 40px rgba(255, 107, 142, 0.35);
+            --gradient: linear-gradient(45deg, #ff6b8e, #ff8eb2);
+            --content-width: min(1200px, 90vw);
+            --section-width: min(800px, 95vw);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        /* Base Layout */
+        .container {
+            display: grid;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        /* Initial Question Section */
+        .greeting {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .greeting .section {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+
+        .greeting h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .choice-btn {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Desktop (1440px and above) */
+        @media (min-width: 1441px) {
+            .greeting {
+                padding: 3rem;
+            }
+
+            .greeting h1 {
+                font-size: 3rem;
+            }
+
+            .choice-btn {
+                min-width: 180px;
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Laptop (1024px to 1440px) */
+        @media (max-width: 1440px) {
+            .greeting {
+                min-height: 70vh;
+                padding: 2.5rem;
+            }
+
+            .greeting h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Small Laptop/Large Tablet (768px to 1024px) */
+        @media (max-width: 1024px) {
+            .greeting {
+                min-height: 60vh;
+                padding: 2rem;
+            }
+
+            .greeting h1 {
+                font-size: 2.2rem;
+            }
+
+            .button-group {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Tablet (576px to 768px) */
+        @media (max-width: 768px) {
+            .greeting {
+                min-height: 50vh;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .greeting h1 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                max-width: 300px;
+            }
+
+            .choice-btn {
+                width: 100%;
+                min-width: unset;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Mobile (375px to 576px) */
+        @media (max-width: 576px) {
+            .greeting {
+                min-height: 45vh;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .greeting h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .choice-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Small Mobile (320px to 375px) */
+        @media (max-width: 375px) {
+            .greeting {
+                min-height: 40vh;
+                padding: 0.8rem;
+            }
+
+            .greeting h1 {
+                font-size: 1.5rem;
+            }
+
+            .choice-btn {
+                padding: 0.7rem 1.2rem;
+            }
+        }
+
+        /* Landscape Mode */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .greeting {
+                min-height: 90vh;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .greeting h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .button-group {
+                flex-direction: row;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Height-based Adjustments */
+        @media (max-height: 700px) {
+            .greeting {
+                min-height: 85vh;
+            }
+        }
+
+        /* Celebration Screen */
+        .celebration-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .celebration-content {
+            padding: 2rem;
+        }
+
+        .celebration-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Button Styles */
+        .yes-btn, .no-btn {
+            transition: transform 0.3s ease;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .no-btn {
+            background: #333333;
+            color: var(--text-secondary);
+            position: static; /* Ensure static positioning */
+            transform: none; /* Remove any transforms */
+            transition: none; /* Remove transitions */
+        }
+
+        /* Form Steps */
+        .form-step {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Activity Grid */
+        .activity-section {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        /* Summary Panel */
+        .selection-summary {
+            position: fixed;
+            right: 2rem;
+            top: 2rem;
+            bottom: 2rem;
+            width: 300px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        /* Desktop (1440px and above) */
+        @media (min-width: 1441px) {
+            .container {
+                grid-template-columns: 1fr 350px;
+                padding: 2rem;
+                gap: 2rem;
+            }
+
+            .main-content {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        /* Laptop (1024px to 1440px) */
+        @media (max-width: 1440px) {
+            .container {
+                grid-template-columns: 1fr 300px;
+                padding: 1.5rem;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        /* Small Laptop/Large Tablet (768px to 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+                margin-bottom: 60vh; /* Space for summary panel */
+            }
+
+            .selection-summary {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: 50vh;
+                border-radius: 15px 15px 0 0;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .greeting {
+                min-height: 40vh;
+            }
+        }
+
+        /* Tablet (576px to 768px) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .main-content {
+                padding: 0.75rem;
+                margin-bottom: 50vh;
+            }
+
+            .form-step {
+                padding: 0.75rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .greeting {
+                padding: 1.5rem;
+                min-height: 35vh;
+            }
+
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 1rem auto;
+            }
+        }
+
+        /* Mobile (375px to 576px) */
+        @media (max-width: 576px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .main-content {
+                padding: 0.5rem;
+                margin-bottom: 45vh;
+            }
+
+            .form-step {
+                padding: 0.5rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .greeting {
+                padding: 1rem;
+                min-height: 30vh;
+            }
+
+            .selection-summary {
+                height: 40vh;
+            }
+        }
+
+        /* Small Mobile (320px to 375px) */
+        @media (max-width: 375px) {
+            .container {
+                padding: 0.25rem;
+            }
+
+            .main-content {
+                padding: 0.25rem;
+                margin-bottom: 40vh;
+            }
+
+            .form-step {
+                padding: 0.25rem;
+            }
+
+            .greeting {
+                padding: 0.75rem;
+                min-height: 25vh;
+            }
+
+            .activity-card {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Landscape Mode */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .greeting {
+                min-height: 60vh;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .selection-summary {
+                height: 80vh;
+            }
+
+            .main-content {
+                margin-bottom: 0;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Height-based Adjustments */
+        @media (max-height: 700px) {
+            .greeting {
+                min-height: 45vh;
+            }
+
+            .selection-summary {
+                top: 1rem;
+                bottom: 1rem;
+            }
+        }
+
+        /* Ensure proper spacing for interactive elements */
+        .activity-card,
+        .choice-btn,
+        .option-item {
+            min-height: 44px;
+            padding: 1rem;
+        }
+
+        /* Center alignment helpers */
+        .text-center {
+            text-align: center;
+        }
+
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .choice-btn {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 142, 0.4);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 142, 0.5);
+        }
+
+        .no-btn {
+            background: #333333;
+            color: var(--text-secondary);
+        }
+
+        .celebration-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .celebration-content {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .celebration-content h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes floatIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 2rem;
+            animation: floatUp 4s ease-in-out;
+            opacity: 0;
+            text-shadow: 0 0 10px rgba(255, 107, 142, 0.5);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .celebration-btn {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .celebration-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 107, 142, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .activity-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .activity-card:hover,
+        .activity-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(255, 107, 142, 0.2);
+        }
+
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sub-options {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            width: 350px;
+            max-height: 80vh;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-left: 20px;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sub-options.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .option-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option-item {
+            background: var(--input-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid var(--input-border);
+            color: var(--text);
+        }
+
+        .option-item:hover,
+        .option-item.selected {
+            background: rgba(255, 107, 142, 0.1);
+            border-color: var(--primary);
+        }
+
+        .option-icon {
+            font-size: 1.5rem;
+        }
+
+        .selection-summary {
+            position: sticky;
+            top: 2rem;
+            width: 300px;
+            height: calc(100vh - 4rem);
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Hover effect for summary panel */
+        .selection-summary:hover {
+            box-shadow: 
+                0 0 25px rgba(255, 107, 142, 0.3),
+                0 0 50px rgba(255, 107, 142, 0.2),
+                inset 0 0 25px rgba(255, 107, 142, 0.15);
+            transform: translateX(-5px);
+        }
+
+        /* Summary Header Styling */
+        .selection-summary h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            text-align: center;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255, 107, 142, 0.2);
+            text-shadow: 0 0 10px rgba(255, 107, 142, 0.5);
+        }
+
+        /* Summary Items Styling */
+        .summary-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 107, 142, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 142, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .summary-item:hover {
+            background: rgba(255, 107, 142, 0.1);
+            transform: translateX(-5px);
+            box-shadow: 3px 3px 10px rgba(255, 107, 142, 0.2);
+        }
+
+        .summary-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-value {
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Scrollbar Styling for Summary Panel */
+        .selection-summary::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .selection-summary::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 10px 0;
+        }
+
+        .selection-summary::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 142, 0.5);
+            border-radius: 10px;
+        }
+
+        .selection-summary::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 142, 0.7);
+        }
+
+        /* Animation for summary updates */
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 
+                    0 0 20px rgba(255, 107, 142, 0.2),
+                    0 0 40px rgba(255, 107, 142, 0.1),
+                    inset 0 0 20px rgba(255, 107, 142, 0.1);
+            }
+            50% {
+                box-shadow: 
+                    0 0 25px rgba(255, 107, 142, 0.3),
+                    0 0 50px rgba(255, 107, 142, 0.2),
+                    inset 0 0 25px rgba(255, 107, 142, 0.15);
+            }
+            100% {
+                box-shadow: 
+                    0 0 20px rgba(255, 107, 142, 0.2),
+                    0 0 40px rgba(255, 107, 142, 0.1),
+                    inset 0 0 20px rgba(255, 107, 142, 0.1);
+            }
+        }
+
+        /* Add this class when updating summary */
+        .summary-update {
+            animation: glow-pulse 1s ease-in-out;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .selection-summary {
+                right: 1rem;
+                left: 1rem;
+                width: calc(100% - 2rem);
+                height: auto;
+                max-height: 300px;
+                bottom: 1rem;
+                top: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .greeting h1 {
+                font-size: 1.8rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .selection-summary {
+                position: static;
+                margin-top: 2rem;
+                width: 100%;
+            }
+        }
+
+        /* Update animations for dark theme */
+        .heart {
+            text-shadow: 0 0 10px rgba(255, 107, 142, 0.5);
+        }
+
+        /* Add glow effect to buttons */
+        .choice-btn:hover {
+            box-shadow: 0 6px 20px rgba(255, 107, 142, 0.5);
+        }
+
+        /* Add subtle transitions */
+        .section,
+        .activity-card,
+        .option-item,
+        input,
+        button {
+            transition: all 0.3s ease;
+        }
+
+        /* Style scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-dark);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Add subtle glow to headings */
+        h2, h3, h4 {
+            color: var(--text);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* Style calendar popup */
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.7;
+        }
+
+        /* Add subtle border glow on focus */
+        .activity-card:focus,
+        .option-item:focus,
+        input:focus,
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 142, 0.4);
+        }
+
+        /* Add text outline for emoji icons */
+        .activity-icon, 
+        .option-icon {
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Enhanced selected states */
+        .activity-card.selected {
+            background: rgba(255, 107, 142, 0.15);
+            border-color: var(--primary);
+        }
+
+        .option-item.selected {
+            background: rgba(255, 107, 142, 0.15);
+            border-color: var(--primary);
+        }
+
+        /* Improved focus states */
+        .activity-card:focus,
+        .option-item:focus,
+        input:focus,
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 142, 0.4);
+        }
+
+        /* Add subtle text glow on hover */
+        .activity-card:hover h3,
+        .option-item:hover h4 {
+            text-shadow: 0 0 10px rgba(255, 107, 142, 0.5);
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: #ff4d4d;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .activity-card.selected {
+            background: rgba(255, 107, 142, 0.15);
+            border: 2px solid var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .option-item.selected {
+            background: rgba(255, 107, 142, 0.15);
+            border: 2px solid var(--primary);
+            transform: translateX(5px);
+        }
+
+        /* Add a counter for selected items */
+        .selection-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .activity-card.selected .selection-count {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Overlay for closing panel */
+        .options-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .options-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Close button for panel */
+        .close-panel {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-panel:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Adjust main content when panel is open */
+        .main-content {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .main-content.shifted {
+            transform: translateX(350px);
+        }
+
+        .activity-section {
+            margin-bottom: 2rem;
+            background: rgba(255, 107, 142, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .activity-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            text-align: left;
+            padding-left: 0.5rem;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .activity-card {
+            position: relative;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 107, 142, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 107, 142, 0.2);
+        }
+
+        .activity-card.selected {
+            background: rgba(255, 107, 142, 0.15);
+            border: 2px solid var(--primary);
+        }
+
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .activity-section {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sub-options panel positioning */
+        .sub-options {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            max-width: none;
+            border-radius: 0;
+        }
+
+        .sub-options.active {
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* Add smooth scrolling to the section */
+        .section {
+            max-height: 80vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--card-bg);
+        }
+
+        .section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .section::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+
+        .section::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Container and main content positioning */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            min-height: 100vh;
+            padding: 2rem;
+            width: 100%;
+            gap: 2rem;
+        }
+
+        .main-content {
+            width: calc(100% - 350px); /* Account for summary panel width */
+            max-width: 800px;
+            padding: 2rem;
+            margin-right: auto; /* Push content to the left */
+        }
+
+        /* Summary panel styling - fixed to the right */
+        .selection-summary {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: var(--card-bg);
+            border-left: 1px solid rgba(255, 107, 142, 0.2);
+            padding: 2rem;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            z-index: 900;
+        }
+
+        /* Activity sections styling */
+        .activity-section {
+            margin-bottom: 2rem;
+            background: rgba(255, 107, 142, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Sub-options panel - will appear over the main content */
+        .sub-options {
+            position: fixed;
+            left: 50px; /* Slightly offset from the left */
+            top: 50%;
+            transform: translateY(-50%) translateX(-100%);
+            width: 350px;
+            max-height: 80vh;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sub-options.active {
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .main-content {
+                width: calc(100% - 320px);
+                padding: 1.5rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .main-content {
+                width: 100%;
+                margin-bottom: 350px; /* Space for summary panel */
+            }
+
+            .selection-summary {
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                width: 100%;
+                height: auto;
+                max-height: 300px;
+                border-left: none;
+                border-top: 1px solid rgba(255, 107, 142, 0.2);
+            }
+
+            .sub-options {
+                left: 0;
+                width: 100%;
+                max-width: none;
+                border-radius: 15px 15px 0 0;
+                max-height: 70vh;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add fade-in animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    
+
+        .selection-summary {
+            position: fixed;
+            right: 2rem;
+            top: 2rem;
+            bottom: 2rem;
+            width: 300px;
+            background: rgba(45, 45, 45, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 107, 142, 0.2);
+            padding: 2rem;
+            box-shadow: 
+                0 0 20px rgba(255, 107, 142, 0.2),
+                0 0 40px rgba(255, 107, 142, 0.1),
+                inset 0 0 20px rgba(255, 107, 142, 0.1);
+            overflow-y: auto;
+            z-index: 900;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .selection-summary.fade-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Add fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        /* Center alignment for step 1 */
+        #step1 {
+            display: flex;
+            justify-content: flex-start; /* Changed from center to allow right offset */
+            align-items: center;
+            min-height: 90vh;
+            padding: 2rem;
+            padding-left: 15%; /* Add left padding to move container right */
+        }
+
+        #step1 .section {
+            width: 100%;
+            max-width: 650px; /* Reduced from 800px */
+            min-height: 500px; /* Reduced from 600px */
+            background: var(--card-bg);
+            padding: 3.5rem; /* Slightly reduced padding */
+            border-radius: 24px;
+            box-shadow: 
+                0 0 20px rgba(255, 107, 142, 0.2),
+                0 0 40px rgba(255, 107, 142, 0.1),
+                inset 0 0 20px rgba(255, 107, 142, 0.1);
+            border: 1px solid rgba(255, 107, 142, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #step1 h2 {
+            margin-bottom: 3rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(255, 107, 142, 0.3);
+            text-align: center;
+            width: 100%;
+        }
+
+        #step1 .form-group {
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #step1 label {
+            display: block;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            color: var(--text);
+            text-align: center;
+        }
+
+        #step1 input[type="datetime-local"] {
+            width: 100%;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: var(--input-bg);
+            border: 2px solid rgba(255, 107, 142, 0.2);
+            color: var(--text);
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        #step1 input[type="datetime-local"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 107, 142, 0.3);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        #step1 .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            width: 100%;
+        }
+
+        #step1 .choice-btn {
+            padding: 1rem 3rem;
+            font-size: 1.3rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        #step1 .choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 142, 0.4);
+        }
+
+        /* Style calendar popup for dark theme */
+        #step1 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.7;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            padding: 4px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #step1 .section {
+                padding: 2rem;
+                min-height: 500px;
+            }
+
+            #step1 h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            #step1 label {
+                font-size: 1.2rem;
+            }
+
+            #step1 input[type="datetime-local"] {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
+
+            #step1 .choice-btn {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #step1 .section {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            #step1 h2 {
+                font-size: 1.8rem;
+            }
+
+            #step1 .button-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            #step1 .choice-btn {
+                width: 100%;
+            }
+        }
+
+        /* Adjust responsive behavior */
+        @media (max-width: 1200px) {
+            #step1 {
+                padding-left: 10%; /* Reduce offset on smaller screens */
+            }
+        }
+
+        @media (max-width: 992px) {
+            #step1 {
+                padding-left: 5%; /* Further reduce offset */
+            }
+        }
+
+        @media (max-width: 768px) {
+            #step1 {
+                padding-left: 2rem; /* Minimal offset on mobile */
+                justify-content: center; /* Center on mobile */
+            }
+
+            #step1 .section {
+                max-width: 500px;
+                min-height: 450px;
+                padding: 2rem;
+            }
+        }
+
+        .activity-card {
+            position: relative;
+        }
+
+        .summary-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 107, 142, 0.2);
+        }
+
+        .selected-activity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 107, 142, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .selected-activity:hover {
+            transform: translateX(10px);
+            background: rgba(255, 107, 142, 0.2);
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            min-width: 120px;
+            border: 1px solid rgba(255, 107, 142, 0.2);
+            box-shadow: 0 0 20px rgba(255, 107, 142, 0.1);
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 107, 142, 0.3);
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .selection-summary {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                top: auto;
+                width: 100%;
+                height: auto;
+                max-height: 300px;
+                border-radius: 15px 15px 0 0;
+            }
+
+            .countdown-container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .countdown-item {
+                min-width: calc(50% - 1rem);
+                padding: 1rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .greeting h1 {
+                font-size: 1.8rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .choice-btn {
+                width: 100%;
+                padding: 0.8rem 2rem;
+            }
+
+            .activity-section {
+                padding: 1rem;
+            }
+
+            .sub-options {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: auto;
+                width: 100%;
+                margin: 0;
+                border-radius: 15px 15px 0 0;
+                max-height: 70vh;
+            }
+
+            .countdown-container {
+                gap: 0.5rem;
+            }
+
+            .countdown-item {
+                min-width: calc(50% - 0.5rem);
+                padding: 0.8rem;
+            }
+
+            .countdown-value {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .countdown-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .countdown-item {
+                min-width: 100%;
+            }
+
+            .summary-content {
+                padding: 1rem;
+            }
+
+            .selected-activity {
+                padding: 0.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .activity-card {
+                padding: 1rem;
+            }
+
+            .activity-icon {
+                font-size: 2rem;
+            }
+        }
+
+        /* Fix for very small screens */
+        @media (max-width: 320px) {
+            .countdown-container {
+                grid-template-columns: 1fr;
+            }
+
+            .greeting h1 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* Height-based media queries */
+        @media (max-height: 700px) {
+            .section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .activity-section {
+                margin-bottom: 1rem;
+            }
+
+            .countdown-item {
+                padding: 1rem;
+            }
+        }
+
+        /* Landscape mode adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .greeting {
+                position: static;
+                transform: none;
+                padding: 1rem;
+            }
+
+            .selection-summary {
+                max-height: 200px;
+            }
+
+            .countdown-container {
+                margin: 1rem 0;
+            }
+
+            .section {
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+        }
+
+        .sweet-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 107, 142, 0.95);
+            color: white;
+            padding: 2rem 3rem;
+            border-radius: 15px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255, 107, 142, 0.3);
+            animation: popupAnimation 2s ease-in-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes popupAnimation {
+            0% { 
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% { 
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            30% { 
+                transform: translate(-50%, -50%) scale(1);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+
+        .activity-popup {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(255, 107, 142, 0.3);
+            animation: slideUp 0.3s ease-out, fadeOut 0.3s ease-in 1.7s;
+            z-index: 1000;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float 3s ease-in forwards;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Base layout structure */
+        :root {
+            --content-width: min(1200px, 90vw);
+            --section-width: min(800px, 95vw);
+        }
+
+        /* Main container */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr auto; /* Main content + Summary panel */
+            min-height: 100vh;
+            width: 100%;
+            padding: 2rem;
+            gap: 2rem;
+            box-sizing: border-box;
+        }
+
+        /* Main content area */
+        .main-content {
+            width: var(--content-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Form sections */
+        .form-step {
+            width: var(--section-width);
+            margin: 0 auto;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Activity grid */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        /* Summary panel */
+        .selection-summary {
+            position: sticky;
+            top: 2rem;
+            width: 300px;
+            height: calc(100vh - 4rem);
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Desktop (Large screens) */
+        @media (min-width: 1441px) {
+            .container {
+                max-width: 1440px;
+                margin: 0 auto;
+            }
+            
+            .activity-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Laptop */
+        @media (max-width: 1440px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .activity-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Small Laptop/Large Tablet */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .selection-summary {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                top: auto;
+                width: 100%;
+                height: 60vh;
+                border-radius: 15px 15px 0 0;
+                z-index: 1000;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem 0.5rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .choice-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .selection-summary {
+                height: 50vh;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Portrait/Landscape Specific */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .container {
+                min-height: auto;
+            }
+
+            .selection-summary {
+                height: 80vh;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Height-based adjustments */
+        @media (max-height: 700px) {
+            .section {
+                padding: 1rem;
+            }
+
+            .activity-card {
+                padding: 1rem;
+            }
+        }
+
+        /* iOS Safari fixes */
+        @supports (-webkit-touch-callout: none) {
+            .container {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* Ensure proper spacing and clickable areas */
+        .activity-card,
+        .choice-btn,
+        .option-item {
+            min-height: 44px;
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        /* Animation smoothness */
+        * {
+            transition: all 0.3s ease;
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Center the main container */
+        .container {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Center the greeting section */
+        .greeting {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Style the section container */
+        .greeting .section {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Style the heading */
+        .greeting h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        /* Center the buttons */
+        .button-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .greeting .section {
+                padding: 2rem;
+            }
+            
+            .greeting h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .greeting .section {
+                padding: 1.5rem;
+            }
+            
+            .greeting h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            margin: 5px 0;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* Summary Panel Modifications */
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                display: block;
+            }
+
+            .selection-summary {
+                position: fixed;
+                top: 0;
+                left: -300px; /* Hide off-screen by default */
+                height: 100vh;
+                width: 280px;
+                background: var(--card-bg);
+                z-index: 999;
+                transition: 0.3s;
+                box-shadow: var(--shadow);
+            }
+
+            .selection-summary.active {
+                left: 0;
+            }
+
+            /* Overlay for when summary is open */
+            .summary-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+            }
+
+            .summary-overlay.active {
+                display: block;
+            }
+        }
+
+        .success-message,
+        .error-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+            animation: fadeInOut 3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .success-message {
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+        }
+
+        .error-message {
+            background: linear-gradient(45deg, #ff5f6d, #ffc371);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -20px); }
+            15% { opacity: 1; transform: translate(-50%, 0); }
+            85% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -20px); }
+        }
+
+        /* Add this in your step3 section before the share button */
+        .names-input {
+            margin: 2rem 0;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            background: rgba(255, 107, 142, 0.1);
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(255, 107, 142, 0.3);
+            transform: scale(1.02);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 107, 142, 0.6);
+        }
+
+        /* Special styling for Papy's readonly input */
+        .input-group input[readonly] {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0.9;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        /* Add heartbeat animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        /* Add floating hearts around the input on focus */
+        .input-group input:focus + .floating-hearts {
+            opacity: 1;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-20px) scale(0); opacity: 0; }
+        }
+    </style>
+    <!-- Add this in the <head> section -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="main-content">
+            <div class="greeting" id="initialQuestion">
+                <div class="section">
+                    <h1>Would you like to go out with me for a date? 💝</h1>
+                    <div class="button-group">
+                        <button id="yesBtn" class="choice-btn yes-btn">Yes! 💖</button>
+                        <button id="noBtn" class="choice-btn no-btn">No 😔</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="celebrationScreen" style="display: none;" class="celebration-container">
+                <div class="celebration-content">
+                    <h1>Yaaay! You said YES! 🎉</h1>
+                    <p>You just made me the happiest person! 💖</p>
+                    <div class="hearts-container"></div>
+                    <button id="nextBtn" class="celebration-btn">Click me BabyGirl 💝</button>
+                </div>
+            </div>
+
+            <div id="dateForm" style="display: none;">
+                <div id="step1" class="form-step">
+                    <div class="section">
+                        <h2>Let's plan our special date! 💫</h2>
+                        <div class="form-group">
+                            <label>When would you like to meet?</label>
+                            <input type="datetime-local" name="dateTime" required>
+                        </div>
+                        <div class="button-group">
+                            <button class="choice-btn back-btn" id="step1BackBtn">Back</button>
+                            <button class="choice-btn next-btn" id="step1NextBtn">Next ❤️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step2" class="form-step" style="display: none;">
+                    <div class="section">
+                        <h2>What sounds fun to you? 🎉</h2>
+                        
+                        <!-- Entertainment Activities -->
+                        <div class="activity-section">
+                            <h3>Entertainment 🎭</h3>
+                            <div class="activity-grid">
+                                <div class="activity-card" data-activity="movie">
+                                    <div class="activity-icon">🎬</div>
+                                    <h3>Movie</h3>
+                                    <p>Cozy cinema date</p>
+                                </div>
+                                <div class="activity-card" data-activity="concert">
+                                    <div class="activity-icon">🎵</div>
+                                    <h3>Concert</h3>
+                                    <p>Live music experience</p>
+                                </div>
+                                <div class="activity-card" data-activity="theater">
+                                    <div class="activity-icon">🎭</div>
+                                    <h3>Theater</h3>
+                                    <p>Live performance show</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dining Activities -->
+                        <div class="activity-section">
+                            <h3>Dining 🍽️</h3>
+                            <div class="activity-grid">
+                                <div class="activity-card" data-activity="dinner">
+                                    <div class="activity-icon">🍝</div>
+                                    <h3>Fine Dining</h3>
+                                    <p>A romantic dining experience</p>
+                                </div>
+                                <div class="activity-card" data-activity="cafe">
+                                    <div class="activity-icon">☕</div>
+                                    <h3>Café</h3>
+                                    <p>Casual coffee and treats</p>
+                                </div>
+                                <div class="activity-card" data-activity="picnic">
+                                    <div class="activity-icon">🧺</div>
+                                    <h3>Picnic</h3>
+                                    <p>Outdoor dining adventure</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Adventure Activities -->
+                        <div class="activity-section">
+                            <h3>Adventure 🌟</h3>
+                            <div class="activity-grid">
+                                <div class="activity-card" data-activity="adventure">
+                                    <div class="activity-icon">🏃‍♂️</div>
+                                    <h3>Outdoor Activity</h3>
+                                    <p>Let's explore together</p>
+                                </div>
+                                <div class="activity-card" data-activity="amusement">
+                                    <div class="activity-icon">🎡</div>
+                                    <h3>Amusement Park</h3>
+                                    <p>Thrills and excitement</p>
+                                </div>
+                                <div class="activity-card" data-activity="surprise">
+                                    <div class="activity-icon">🎁</div>
+                                    <h3>Surprise Me!</h3>
+                                    <p>Trust me, you'll love it</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="choice-btn back-btn" id="step2BackBtn">Back</button>
+                            <button class="choice-btn next-btn" id="step2NextBtn">Next ❤️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step3" class="form-step" style="display: none;">
+                    <div class="section">
+                        <h2>Here's our date plan! 💝</h2>
+                        <div class="summary-content">
+                            <div class="summary-item">
+                                <span class="summary-label">When:</span>
+                                <span id="finalDateTime" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Our Activities:</span>
+                                <div id="finalActivities" class="summary-value"></div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="choice-btn back-btn" id="step3BackBtn">Back</button>
+                            <button class="choice-btn" id="shareBtn">Add to Calendar 📅</button>
+                        </div>
+                        <!-- Add this in your step3 section before the share button -->
+                        <div class="names-input">
+                            <div class="input-group">
+                                <label for="toName">Your Name:</label>
+                                <input type="text" id="toName" placeholder="Enter your name, beautiful 💖" required>
+                                <div class="floating-hearts"></div>
+                            </div>
+                            <div class="input-group">
+                                <label for="fromName">From:</label>
+                                <input type="text" id="fromName" value="Papy 💝" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step4" class="form-step" style="display: none;">
+                    <div class="section">
+                        <h2>Counting down to our special date! </h2>
+                        <div class="countdown-container">
+                            <div class="countdown-item">
+                                <span id="days" class="countdown-value">00</span>
+                                <span class="countdown-label">Days</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span id="hours" class="countdown-value">00</span>
+                                <span class="countdown-label">Hours</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span id="minutes" class="countdown-value">00</span>
+                                <span class="countdown-label">Minutes</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span id="seconds" class="countdown-value">00</span>
+                                <span class="countdown-label">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="selection-summary" style="display: none;">
+            <h3>Our Date Plan 💝</h3>
+            <div id="dateTimeSummary" class="summary-item">
+                <span class="summary-label">When:</span>
+                <span class="summary-value">Not selected yet</span>
+            </div>
+            <div id="activitySummary" class="summary-item">
+                <span class="summary-label">What:</span>
+                <span class="summary-value">Cuddles & stuff 🤗</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="options-overlay"></div>
+
+    <button class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="summary-overlay" id="summaryOverlay"></script>
+
+    <script>
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("_fblUc7Gh7MPsygfX"); // Your actual public key
+        })();
+
+        // Initialize variables
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const initialQuestion = document.getElementById('initialQuestion');
+        const celebrationScreen = document.getElementById('celebrationScreen');
+        const dateForm = document.getElementById('dateForm');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let selectedChoices = {
+            dateTime: null,
+            activities: {},
+            subOptions: {}
+        };
+
+        let currentOpenPanel = null;
+
+        // Yes button click handler
+        yesBtn.addEventListener('click', () => {
+            initialQuestion.style.display = 'none';
+            celebrationScreen.style.display = 'block';
+            createHearts();
+        });
+
+        // Next button click handler
+        nextBtn.addEventListener('click', () => {
+            // Create and show popup
+            const popup = document.createElement('div');
+            popup.className = 'sweet-popup';
+            popup.innerHTML = 'Good Girl! 😏';
+            document.body.appendChild(popup);
+
+            // Remove popup after animation
+            setTimeout(() => {
+                popup.remove();
+                celebrationScreen.style.display = 'none';
+                dateForm.style.display = 'block';
+            }, 2000);
+        });
+
+        // Create floating hearts animation
+        function createHearts() {
+            const heartsContainer = document.querySelector('.hearts-container');
+            const heartCount = 50;
+            const heartCharacters = ['❤️', '💖', '💝', '💕', '💗'];
+
+            for (let i = 0; i < heartCount; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.textContent = heartCharacters[Math.floor(Math.random() * heartCharacters.length)];
+                    heartsContainer.appendChild(heart);
+
+                    // Remove heart after animation
+                    heart.addEventListener('animationend', () => {
+                        heart.remove();
+                    });
+                }, i * 100);
+            }
+        }
+
+        // Activity selection handlers
+        const activityCards = document.querySelectorAll('.activity-card');
+        activityCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Toggle selected state
+                card.classList.toggle('selected');
+                const activity = card.dataset.activity;
+                
+                if (card.classList.contains('selected')) {
+                    // Add activity to selectedChoices
+                    selectedChoices.activities[activity] = true;
+                    showActivityPopup(activity);
+                    card.style.animation = 'selectPulse 0.5s ease-out';
+                } else {
+                    // Remove activity from selectedChoices
+                    delete selectedChoices.activities[activity];
+                }
+                
+                // Update summary
+                updateActivitySummary();
+            });
+        });
+
+        // Close sub-options when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.activity-card') && !e.target.closest('.sub-options')) {
+                document.querySelectorAll('.sub-options').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+            }
+        });
+
+        // Add overlay click handler to close panel
+        document.querySelector('.options-overlay').addEventListener('click', () => {
+            if (currentOpenPanel) {
+                currentOpenPanel.classList.remove('active');
+                document.querySelector('.options-overlay').classList.remove('active');
+                currentOpenPanel = null;
+            }
+        });
+
+        // Add close button to each sub-options panel
+        document.querySelectorAll('.sub-options').forEach(panel => {
+            const closeButton = document.createElement('button');
+            closeButton.className = 'close-panel';
+            closeButton.innerHTML = '×';
+            closeButton.addEventListener('click', () => {
+                panel.classList.remove('active');
+                document.querySelector('.options-overlay').classList.remove('active');
+                currentOpenPanel = null;
+            });
+            panel.insertBefore(closeButton, panel.firstChild);
+        });
+
+        // Sub-option selection handlers
+        const optionItems = document.querySelectorAll('.option-item');
+        optionItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('selected');
+                
+                const value = item.dataset.value;
+                const activity = item.closest('.sub-options').id.replace('Options', '');
+                
+                if (!selectedChoices.subOptions[activity]) {
+                    selectedChoices.subOptions[activity] = {};
+                }
+                
+                if (item.classList.contains('selected')) {
+                    selectedChoices.subOptions[activity][value] = true;
+                } else {
+                    delete selectedChoices.subOptions[activity][value];
+                }
+            });
+        });
+
+        // Step navigation functions
+        function nextStep(currentStep) {
+            if (validateStep(currentStep)) {
+                document.getElementById(`step${currentStep}`).style.display = 'none';
+                document.getElementById(`step${currentStep + 1}`).style.display = 'block';
+            }
+        }
+
+        function prevStep(currentStep) {
+            document.getElementById(`step${currentStep}`).style.display = 'none';
+            document.getElementById(`step${currentStep - 1}`).style.display = 'block';
+        }
+
+        // Validation function
+        function validateStep(step) {
+            switch(step) {
+                case 1:
+                    const dateTime = document.querySelector('input[name="dateTime"]').value;
+                    if (!dateTime) {
+                        alert("Please select a date and time! 📅");
+                        return false;
+                    }
+                    selectedChoices.dateTime = dateTime;
+                    updateSummary('dateTime', new Date(dateTime).toLocaleString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }));
+                    return true;
+                case 2:
+                    // Check if any activities are selected
+                    const selectedActivitiesCount = Object.keys(selectedChoices.activities).length;
+                    console.log('Selected activities:', selectedChoices.activities); // Debug log
+                    if (selectedActivitiesCount === 0) {
+                        alert("Please select at least one activity! 🎯");
+                        return false;
+                    }
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        // Update summary function
+        function updateSummary(type, value) {
+            const summaryItem = document.getElementById(`${type}Summary`);
+            if (summaryItem) {
+                summaryItem.querySelector('.summary-value').textContent = value;
+                
+                // Show summary panel if hidden
+                const summaryPanel = document.querySelector('.selection-summary');
+                if (window.innerWidth > 768) {
+                    summaryPanel.style.display = 'block';
+                }
+                
+                setTimeout(() => {
+                    summaryPanel.classList.add('fade-in');
+                }, 50);
+                
+                // Add glow effect
+                summaryPanel.classList.add('summary-update');
+                setTimeout(() => {
+                    summaryPanel.classList.remove('summary-update');
+                }, 1000);
+            }
+        }
+
+        // Replace the existing handleNoButtonInteraction with this new function
+        function handleNoButtonInteraction(e) {
+            const noBtn = document.getElementById('noBtn');
+            const mouseX = e.clientX || e.touches?.[0]?.clientX || 0;
+            const mouseY = e.clientY || e.touches?.[0]?.clientY || 0;
+            
+            // Get button's current position
+            const rect = noBtn.getBoundingClientRect();
+            const buttonCenterX = rect.left + rect.width / 2;
+            const buttonCenterY = rect.top + rect.height / 2;
+            
+            // Calculate distance between cursor and button center
+            const distance = Math.hypot(mouseX - buttonCenterX, mouseY - buttonCenterY);
+            
+            // Only move if cursor is within 5px of the button
+            if (distance < 5) {
+                // Move button slightly away from cursor
+                const offset = 10;
+                let newX = buttonCenterX + (buttonCenterX - mouseX) / distance * offset;
+                let newY = buttonCenterY + (buttonCenterY - mouseY) / distance * offset;
+                
+                // Keep button within viewport
+                newX = Math.min(Math.max(0, newX - rect.width / 2), window.innerWidth - rect.width);
+                newY = Math.min(Math.max(0, newY - rect.height / 2), window.innerHeight - rect.height);
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${newX}px`;
+                noBtn.style.top = `${newY}px`;
+            }
+            
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+            }
+        }
+
+        // Initialize summary when page loads
+        window.addEventListener('load', () => {
+            const summaryPanel = document.querySelector('.selection-summary');
+            if (summaryPanel) {
+                summaryPanel.style.display = 'block';
+            }
+        });
+
+        // Get button elements
+        const step1BackBtn = document.getElementById('step1BackBtn');
+        const step1NextBtn = document.getElementById('step1NextBtn');
+        const step2BackBtn = document.getElementById('step2BackBtn');
+        const step2NextBtn = document.getElementById('step2NextBtn');
+
+        // Step 1 button handlers
+        step1BackBtn.addEventListener('click', () => {
+            dateForm.style.display = 'none';
+            celebrationScreen.style.display = 'block';
+            document.querySelector('.selection-summary').style.display = 'none'; // Hide summary
+        });
+
+        step1NextBtn.addEventListener('click', () => {
+            if (validateStep(1)) {
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('step2').style.display = 'block';
+                // Show and animate summary panel
+                const summaryPanel = document.querySelector('.selection-summary');
+                summaryPanel.style.display = 'block';
+                setTimeout(() => {
+                    summaryPanel.classList.add('fade-in');
+                }, 50);
+            }
+        });
+
+        // Step 2 button handlers
+        step2BackBtn.addEventListener('click', () => {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+        });
+
+        step2NextBtn.addEventListener('click', () => {
+            if (validateStep(2)) {
+                // Update final summary with formatted date and time
+                document.getElementById('finalDateTime').textContent = new Date(selectedChoices.dateTime).toLocaleString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                // Add default cuddles activity first
+                const activitiesList = `
+                    <div class="selected-activity">
+                        <span class="activity-icon">🤗</span>
+                        Cuddles & stuff
+                    </div>
+                    ${Object.keys(selectedChoices.activities)
+                        .map(activity => {
+                            const card = document.querySelector(`[data-activity="${activity}"]`);
+                            return `<div class="selected-activity">
+                                <span class="activity-icon">${card.querySelector('.activity-icon').textContent}</span>
+                                ${card.querySelector('h3').textContent}
+                            </div>`;
+                        })
+                        .join('')}`;
+                
+                document.getElementById('finalActivities').innerHTML = activitiesList;
+
+                // Show step 3
+                document.getElementById('step2').style.display = 'none';
+                document.getElementById('step3').style.display = 'block';
+            }
+        });
+
+        // Add back button handler for step 3
+        document.getElementById('step3BackBtn').addEventListener('click', () => {
+            document.getElementById('step3').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        });
+
+        // Update the share button handler
+        document.getElementById('shareBtn').addEventListener('click', async function() {
+            try {
+                const toName = document.getElementById('toName').value.trim();
+                if (!toName) {
+                    throw new Error('Please tell me your name! 💝');
+                }
+
+                const dateTime = new Date(selectedChoices.dateTime);
+                if (!dateTime || isNaN(dateTime.getTime())) {
+                    throw new Error('Please select a valid date and time! 📅');
+                }
+
+                // Send email first
+                await emailjs.send(
+                    "service_q1w2e34", // Your EmailJS service ID
+                    "template_q1w2e34", // Your EmailJS template ID
+                    {
+                        to_name: toName,
+                        from_name: "Papy",
+                        date_time: dateTime.toLocaleString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }),
+                        activities: Object.keys(selectedChoices.activities)
+                            .map(activity => {
+                                const card = document.querySelector(`[data-activity="${activity}"]`);
+                                return card.querySelector('h3').textContent;
+                            })
+                            .join(', '),
+                        message: "Can't wait for our date! 💕"
+                    }
+                );
+
+                // Calendar functionality (keeping the existing calendar code)
+                const endTime = new Date(dateTime.getTime() + (2 * 60 * 60 * 1000));
+                const startDateFormatted = dateTime.toISOString().replace(/-|:|\.\d+/g, '');
+                const endDateFormatted = endTime.toISOString().replace(/-|:|\.\d+/g, '');
+
+                const activities = Object.keys(selectedChoices.activities)
+                    .map(activity => {
+                        const card = document.querySelector(`[data-activity="${activity}"]`);
+                        return card.querySelector('h3').textContent;
+                    })
+                    .join('\n- ');
+
+                const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Date with ${toName} 💝`)}&details=${encodeURIComponent(`Special date with ${toName}!\n\nActivities:\n- ${activities}\n\nWith love,\nPapy 💕`)}&dates=${startDateFormatted}/${endDateFormatted}`;
+
+                window.open(calendarUrl, '_blank');
+
+                // Success message and countdown
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.textContent = `Email sent and date saved! Can't wait to see you, ${toName}! 💖`;
+                document.body.appendChild(successMessage);
+                setTimeout(() => successMessage.remove(), 3000);
+
+                document.getElementById('step3').style.display = 'none';
+                document.getElementById('step4').style.display = 'block';
+                startCountdown(dateTime);
+
+            } catch (error) {
+                console.error('Error:', error);
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'error-message';
+                errorMessage.textContent = error.message || 'Something went wrong! Please try again! 💕';
+                document.body.appendChild(errorMessage);
+                setTimeout(() => errorMessage.remove(), 3000);
+            }
+        });
+
+        // Add cute placeholder text cycling
+        const nameInput = document.getElementById('toName');
+        const placeholders = [
+            "Enter your name, beautiful 💖",
+            "Your name here, lovely 💝",
+            "What's your name? 💕"
+        ];
+
+        let placeholderIndex = 0;
+        setInterval(() => {
+            nameInput.placeholder = placeholders[placeholderIndex];
+            placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+        }, 3000);
+
+        // Add this helper function if it's not already present
+        function formatDateForCalendar(date) {
+            return date.toISOString().replace(/-|:|\.\d+/g, '');
+        }
+
+        // Update the summary functions
+        function updateActivitySummary() {
+            const activities = Object.keys(selectedChoices.activities);
+            const summaryText = activities.length > 0 
+                ? activities.map(activity => {
+                    const card = document.querySelector(`[data-activity="${activity}"]`);
+                    return card.querySelector('h3').textContent;
+                  }).join(', ')
+                : '';
+                
+            // Always include "Cuddles & stuff" at the start
+            const finalText = `Cuddles & stuff 🤗${summaryText ? ', ' + summaryText : ''}`;
+            updateSummary('activity', finalText);
+        }
+
+        function updateSubOptionSummary() {
+            const subOptionsList = [];
+            for (const activity in selectedChoices.subOptions) {
+                const options = Object.keys(selectedChoices.subOptions[activity]);
+                if (options.length > 0) {
+                    const optionTexts = options.map(option => {
+                        const item = document.querySelector(`[data-value="${option}"]`);
+                        return item.querySelector('h4').textContent;
+                    });
+                    subOptionsList.push(...optionTexts);
+                }
+            }
+            
+            const summaryText = subOptionsList.length > 0 
+                ? subOptionsList.join(', ')
+                : 'Not selected yet';
+                
+            updateSummary('option', summaryText);
+        }
+
+        // Add click event listener to the No button
+        noBtn.addEventListener('click', function() {
+            noBtn.style.display = 'none';  // Hide the button when clicked
+        });
+
+        function startCountdown(targetDate) {
+            function updateCountdown() {
+                const currentDate = new Date();
+                const difference = targetDate - currentDate;
+                
+                if (difference <= 0) {
+                    // Date has passed
+                    document.querySelectorAll('.countdown-value').forEach(el => el.textContent = '00');
+                    return;
+                }
+                
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            // Update immediately and then every second
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        function showActivityPopup(activity) {
+            const messages = {
+                movie: "Movie date! 🍿 I'll bring the popcorn!",
+                dinner: "Fine dining! 🍷 Dress up beautiful for me!",
+                cafe: "Coffee date! ☕ Sweet like you!",
+                picnic: "Outdoor picnic! 🧺 Nature & cuddles!",
+                concert: "Live music! 🎵 Dance with me!",
+                theater: "Theater night! 🎭 Culture & class!",
+                adventure: "Adventure time! 🌟 Let's explore!",
+                amusement: "Fun rides! 🎡 Thrills & joy!",
+                surprise: "It's a surprise! 🎁 Trust me!"
+            };
+
+            const popup = document.createElement('div');
+            popup.className = 'activity-popup';
+            popup.innerHTML = messages[activity] || "Great choice! 💝";
+            document.body.appendChild(popup);
+
+            setTimeout(() => popup.remove(), 2000);
+        }
+
+        function createFloatingHearts() {
+            const container = document.createElement('div');
+            container.className = 'floating-hearts';
+            document.body.appendChild(container);
+
+            const heartCount = 30;
+            const hearts = ['💝', '💖', '💗', '💓', '💕'];
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(heart);
+            }
+
+            setTimeout(() => container.remove(), 3000);
+        }
+
+        function updateCountdown(targetDate) {
+            const messages = [
+                "Can't wait to see you! 💝",
+                "Getting closer to our special day! 💫",
+                "Almost time for our date! 🌟",
+                "The countdown continues! 💖"
+            ];
+
+            function update() {
+                // Existing countdown code...
+                
+                // Add random sweet message
+                const messageEl = document.querySelector('.countdown-message');
+                if (messageEl) {
+                    messageEl.textContent = messages[Math.floor(Math.random() * messages.length)];
+                }
+            }
+            
+            setInterval(update, 5000); // Change message every 5 seconds
+        }
+
+        // Update the button event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const initialQuestion = document.getElementById('initialQuestion');
+            const celebrationScreen = document.getElementById('celebrationScreen');
+
+            yesBtn.addEventListener('click', function() {
+                initialQuestion.style.display = 'none';
+                celebrationScreen.style.display = 'block';
+                createHearts();
+            });
+
+            // Only keep the click event to make it disappear
+            noBtn.addEventListener('click', function() {
+                this.style.display = 'none';
+            });
+        });
+
+        // Add these to your existing JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const summaryPanel = document.querySelector('.selection-summary');
+            const summaryOverlay = document.getElementById('summaryOverlay');
+
+            // Toggle summary panel
+            hamburgerMenu.addEventListener('click', function() {
+                summaryPanel.classList.toggle('active');
+                summaryOverlay.classList.toggle('active');
+            });
+
+            // Close summary when clicking overlay
+            summaryOverlay.addEventListener('click', function() {
+                summaryPanel.classList.remove('active');
+                summaryOverlay.classList.remove('active');
+            });
+        });
+
+        // Simplify click interaction for Papy's name
+        document.getElementById('fromName').addEventListener('click', function() {
+            const loveMessages = [
+                "That's me! 💝",
+                "Your Papy 💕",
+                "I like you! 💗"
+            ];
+            this.value = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            setTimeout(() => this.value = "Papy 💝", 1000);
+        });
+    </script>
+</body>
+</html>
